@@ -4,11 +4,10 @@ const responseHandlers = require('./utils/handleResponses')
 const db = require('./utils/database')
 const initModels = require('./models/initModels')
 const config = require('../config').api;
-
-
-
+const moviesRouter = require('./movies/movies.router')
 const userRouter = require('./users/users.router')
-const authRouter = require('./auth/auth.router')
+const authRouter = require('./auth/auth.router');
+const upload = require('./utils/multer');
 
 
 const app = express()
@@ -37,11 +36,14 @@ app.get('/', (req, res) => {
     })
 })
 
-
+app.post('/upload-file',upload.fields([{name: 'coverImage',maxCount:1},{name:'movieImage',maxCount:1}]) , (req, res) => {
+    const file =req.files;
+    res.status(200).json({file})
+})
 
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/auth', authRouter)
-
+app.use('/api/v1/movies', moviesRouter)
 
 //? Esta debe ser la ultima ruta en mi app
 app.use('*', (req, res)=> {

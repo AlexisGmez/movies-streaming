@@ -19,6 +19,9 @@ const Users = db.define("users", {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
+    validate:{
+      isEmail:true
+    }
   },
   password: {
     type: DataTypes.STRING,
@@ -27,8 +30,15 @@ const Users = db.define("users", {
   profileImage:{
     type: DataTypes.STRING
   },
-  phone: {
+  gender: {
     type: DataTypes.STRING,
+  },
+  birthday:{
+    type: DataTypes.DATE
+  },
+  role: {
+    type: DataTypes.STRING,
+    defaultValue: 'normal'
   },
   isActive: {
     type: DataTypes.BOOLEAN,
